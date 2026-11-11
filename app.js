@@ -45,7 +45,7 @@
    event.preventDefault();
    const detail = target.closest('details');
    if (detail) detail.open = true;
-   target.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start' });
+   target.scrollIntoView({ behavior: 'instant', block: 'start' });
    if (link.classList.contains('skip')) { target.tabIndex = -1; target.focus({preventScroll:true}); }
   });
   const navLinks = [...root.querySelectorAll('.nav a')];
