@@ -1,15 +1,6 @@
-/* The access key remains in the URL fragment and is never sent to the server. */
 (() => {
  'use strict';
- const root = document.getElementById('report-root');
- const params = new URLSearchParams(location.hash.slice(1));
- const keyText = params.get('k');
- window.addEventListener('hashchange', () => location.reload());
- const bytes = value => Uint8Array.from(atob(value.replace(/-/g, '+').replace(/_/g, '/').padEnd(Math.ceil(value.length / 4) * 4, '=')), c => c.charCodeAt(0));
- const message = (title, body) => {
-  document.getElementById('access-title').textContent = title;
-  document.getElementById('access-message').textContent = body;
- };
+ const root=document.getElementById('report-root');
  function selectTab(button) {
   const tabs = [...button.closest('[role="tablist"]').querySelectorAll('[role="tab"]')];
   for (const tab of tabs) {
@@ -59,21 +50,5 @@
   }
   document.getElementById('print-report').addEventListener('click', () => window.print());
  }
- async function open() {
-  if (!keyText) { message('Seu relatório está pronto.', 'Abra esta página pelo link completo que recebeu da GrowAI.'); return; }
-  try {
-   const response = await fetch('payload.json', {cache:'no-store',referrerPolicy:'no-referrer'});
-   if (!response.ok) throw new Error('payload unavailable');
-   const payload = await response.json();
-   const key = await crypto.subtle.importKey('raw', bytes(keyText), {name:'AES-GCM'}, false, ['decrypt']);
-   const plaintext = await crypto.subtle.decrypt({name:'AES-GCM',iv:bytes(payload.iv)}, key, bytes(payload.data));
-   const report = JSON.parse(new TextDecoder().decode(plaintext));
-   document.title = report.title;
-   root.innerHTML = report.html;
-   interactions();
-  } catch (_) {
-   message('Não foi possível abrir o relatório.', 'Confira se o link está completo e tente abrir a página novamente.');
-  }
- }
- open();
+ interactions();
 })();
