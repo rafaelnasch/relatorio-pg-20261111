@@ -4,4 +4,4 @@ Página estática com conteúdo cifrado em AES-256-GCM. O link de acesso contém
 
 Os arquivos públicos contêm apenas a interface, os ativos de marca e o conteúdo cifrado. Fontes, documentos de trabalho e material de validação ficam fora do histórico público.
 
-Publicação: GitHub Pages, raiz da branch `main`.
+Publicação: GitHub Pages pelo workflow estático da branch `main`. O artefato inclui apenas os arquivos públicos selecionados.
